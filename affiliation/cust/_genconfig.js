@@ -56,6 +56,17 @@ module.exports = {
 			}
 		},
 
+		'mst_custsession' : {
+			primarykeys: ['custsession_id'],
+			comment: 'Daftar session login customer',
+			data: {
+				custsession_id: {text:'ID', type: dbtype.varchar(32), null:false},   // 364adb35817a783f9cee5477674a5d03
+				custsession_expired: {text:'AccessType', type: dbtype.date, null:true},
+				cust_id: {text:'ID', type: dbtype.varchar(14), null:false, hidden:true},
+			}
+		},
+
+
 		'mst_custwalinkreq' : {
 			primarykeys: ['custwalinkreq_id'],
 			comment: 'Daftar Contact Customer',

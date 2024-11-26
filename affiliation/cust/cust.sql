@@ -2,6 +2,7 @@
 
 -- drop table if exists `mst_cust`;
 -- drop table if exists `mst_custaccess`;
+-- drop table if exists `mst_custsession`;
 -- drop table if exists `mst_custwalinkreq`;
 
 
@@ -98,6 +99,37 @@ ALTER TABLE `mst_custaccess` ADD CONSTRAINT `custaccess_code` UNIQUE IF NOT EXIS
 ALTER TABLE `mst_custaccess` ADD KEY IF NOT EXISTS `cust_id` (`cust_id`);
 
 ALTER TABLE `mst_custaccess` ADD CONSTRAINT `fk_mst_custaccess_mst_cust` FOREIGN KEY IF NOT EXISTS (`cust_id`) REFERENCES `mst_cust` (`cust_id`);
+
+
+
+
+
+CREATE TABLE IF NOT EXISTS `mst_custsession` (
+	`custsession_id` varchar(32) NOT NULL , 
+	`custsession_expired` date  , 
+	`cust_id` varchar(14) NOT NULL , 
+	`_createby` varchar(14) NOT NULL , 
+	`_createdate` datetime NOT NULL DEFAULT current_timestamp(), 
+	`_modifyby` varchar(14)  , 
+	`_modifydate` datetime  , 
+	PRIMARY KEY (`custsession_id`)
+) 
+ENGINE=InnoDB
+COMMENT='Daftar session login customer';
+
+
+ALTER TABLE `mst_custsession` ADD COLUMN IF NOT EXISTS  `custsession_expired` date   AFTER `custsession_id`;
+ALTER TABLE `mst_custsession` ADD COLUMN IF NOT EXISTS  `cust_id` varchar(14) NOT NULL  AFTER `custsession_expired`;
+
+
+ALTER TABLE `mst_custsession` MODIFY COLUMN IF EXISTS  `custsession_expired` date    AFTER `custsession_id`;
+ALTER TABLE `mst_custsession` MODIFY COLUMN IF EXISTS  `cust_id` varchar(14) NOT NULL   AFTER `custsession_expired`;
+
+
+
+ALTER TABLE `mst_custsession` ADD KEY IF NOT EXISTS `cust_id` (`cust_id`);
+
+ALTER TABLE `mst_custsession` ADD CONSTRAINT `fk_mst_custsession_mst_cust` FOREIGN KEY IF NOT EXISTS (`cust_id`) REFERENCES `mst_cust` (`cust_id`);
 
 
 
